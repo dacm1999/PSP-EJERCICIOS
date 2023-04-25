@@ -14,7 +14,7 @@ public class Cliente04 {
 
         System.out.println("Estableciendo conexion");
         try {
-            Socket cliente = new Socket("localhost", 1597);
+            Socket cliente = new Socket("localhost", 12345);
             ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
             ObjectOutputStream salida = new ObjectOutputStream(cliente.getOutputStream());
             System.out.println("Conexion establecida");
@@ -34,8 +34,6 @@ public class Cliente04 {
 
                     Persona personaRecibida = (Persona) entrada.readObject();
                     System.out.println("La persona seleccionada es: " +"\n" + personaRecibida.toString());
-                }else{
-                    System.out.println(entrada.readUTF());
                 }
             } while (seleccion >= 0);
             salida.close();
