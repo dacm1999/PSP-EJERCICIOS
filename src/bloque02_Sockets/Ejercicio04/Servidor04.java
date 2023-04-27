@@ -24,8 +24,8 @@ public class Servidor04 {
             Socket cliente = servidor.accept();
             System.out.println("Cliente conectado " + cliente.getInetAddress());
 
-            ObjectOutputStream salida = new ObjectOutputStream(cliente.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            ObjectOutputStream salida = new ObjectOutputStream(cliente.getOutputStream());
 
             salida.writeInt(listaPersonas.size());
             salida.flush();
