@@ -12,7 +12,7 @@ public class Cliente02 {
             Socket cliente = new Socket("localhost", 12345);
             System.out.println("Conexion establecida");
             BufferedReader entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-            PrintWriter writer = new PrintWriter(cliente.getOutputStream(),true);
+            PrintWriter writer = new PrintWriter(cliente.getOutputStream(), true);
 
             Scanner sc = new Scanner(System.in);
             System.out.println(entrada.readLine());
@@ -20,12 +20,12 @@ public class Cliente02 {
             String mensaje = sc.nextLine();
             writer.println(mensaje);
 
-            do{
+            do {
                 System.out.println("Escribe un mensaje");
                 mensaje = sc.nextLine();
                 writer.println(mensaje);
 
-            }while (!mensaje.equals("fin"));
+            } while (!mensaje.equals("fin"));
 
             System.out.println("Cliente finalizado");
 
