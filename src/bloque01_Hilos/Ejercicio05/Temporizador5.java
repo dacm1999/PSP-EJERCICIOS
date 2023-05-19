@@ -1,6 +1,6 @@
 package bloque01_Hilos.Ejercicio05;
 
-public class Temporizador5  extends Thread{
+public class Temporizador5 extends Thread {
 
     private int tiempo;
     private boolean ejecucion;
@@ -12,19 +12,19 @@ public class Temporizador5  extends Thread{
     @Override
     public void run() {
         ejecucion = true;
-        for(int i =0; i < tiempo; i ++){
-
+        int contador = 0;
+        while(contador < tiempo && ejecucion){
+            System.out.println(contador++);
             try {
-                sleep(1000);
-                System.out.println(i);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
-
+                e.printStackTrace();
             }
         }
     }
 
 
-    public void parar(){
+    public void parar() {
         ejecucion = false;
     }
 }

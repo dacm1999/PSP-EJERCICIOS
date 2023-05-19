@@ -1,4 +1,4 @@
-package bloque02_Sockets.Examenes.Examen01.Ejercicio01;
+package Examenes.b_Sockets.Examen01.Ejercicio01;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

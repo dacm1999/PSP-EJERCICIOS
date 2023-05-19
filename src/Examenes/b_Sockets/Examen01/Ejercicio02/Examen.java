@@ -1,4 +1,4 @@
-package bloque02_Sockets.Examenes.Examen01.Ejercicio02;
+package Examenes.b_Sockets.Examen01.Ejercicio02;
 
 import java.io.Serializable;
 
