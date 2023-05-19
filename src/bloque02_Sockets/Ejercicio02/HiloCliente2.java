@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class HiloCliente2 extends Thread {
-
     Socket clienteConectado;
     BufferedReader entrada;
     PrintWriter salida;
