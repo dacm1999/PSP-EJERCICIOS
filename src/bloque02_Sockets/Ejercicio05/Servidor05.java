@@ -20,52 +20,54 @@ public class Servidor05 {
         listaPersonas.add(new Persona("Luis",22));
         listaPersonas.add(new Persona("Oscar",25));
         listaPersonas.add(new Persona("Marcos",25));
-        List<String> listaNombres = new ArrayList<>();
 
+        List<String> listaNombres = new ArrayList<>();
 
         for(Persona p : listaPersonas){
             listaNombres.add(p.getNombre());
         }
 
+
         try{
             ServerSocket servidor = new ServerSocket(12345);
-            System.out.println("Esperando conexiones...");
+            System.out.println("Servidor conectado, esperando clientes...");
             Socket cliente = servidor.accept();
+            System.out.println("Cliente conectado " + cliente.getInetAddress());
+
             ObjectOutputStream salida = new ObjectOutputStream(cliente.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
-            System.out.println("Conectado");
+
             salida.writeObject(listaNombres);
             salida.flush();
 
-
-            String mensajeRecibido = "";
+            String seleccion = "";
             do{
-                System.out.println(mensajeRecibido = entrada.readUTF());
+
+                seleccion = entrada.readUTF();
 
 
-                if (mensajeRecibido.equals("lista")) {
-                    //Envio la lista de Persona
+                if(seleccion.equals("lista")){
                     salida.writeObject(listaPersonas);
-                } else {
-                    //Busco el objeto seleccionado y lo envio
-                    for (Persona persona : listaPersonas) {
-                        if (persona.getNombre().equals(mensajeRecibido)) {
-                            salida.writeObject(persona);
+                    salida.flush();
+                }else{
+                    for(Persona p: listaPersonas ){
+
+                        if(seleccion.equals(p.getNombre())){
+                            salida.writeObject(p);
                             break;
                         }
                     }
                 }
+
                 salida.flush();
                 System.out.println("Datos enviados");
-
-            }while (!mensajeRecibido.equals("fin"));
-
-
+            }while (!seleccion.equals("fin"));
 
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
 
     }
 }

@@ -2,36 +2,49 @@ package bloque02_Sockets.Ejercicio02;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Cliente02 {
 
     public static void main(String[] args) {
 
+
         try {
             Socket cliente = new Socket("localhost", 12345);
-            System.out.println("Conexion establecida");
-            BufferedReader entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-            PrintWriter writer = new PrintWriter(cliente.getOutputStream(), true);
-
+            System.out.println("Cliente conectado");
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
+            ObjectOutputStream salida = new ObjectOutputStream(cliente.getOutputStream());
             Scanner sc = new Scanner(System.in);
-            System.out.println(entrada.readLine());
 
-            String mensaje = sc.nextLine();
-            writer.println(mensaje);
 
+
+            //me pide el nombre
+            System.out.println(entrada.readUTF());
+            String nombre = sc.nextLine();
+            salida.writeUTF(nombre);
+            salida.flush();
+
+
+            String mensaje = "";
             do {
-                System.out.println("Escribe un mensaje");
+                System.out.println("Introduce un mensaje ");
                 mensaje = sc.nextLine();
-                writer.println(mensaje);
+
+                salida.writeUTF(mensaje);
+                salida.flush();
+
 
             } while (!mensaje.equals("fin"));
 
-            System.out.println("Cliente finalizado");
 
-
+            salida.close();
+            entrada.close();
+            sc.close();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
         } catch (IOException e) {
-            System.out.println("ERROR I/O");
+            throw new RuntimeException(e);
         }
     }
 }

@@ -6,42 +6,45 @@ import java.util.Scanner;
 
 public class HiloCliente2 extends Thread {
     Socket clienteConectado;
-    BufferedReader entrada;
-    PrintWriter salida;
+    ObjectInputStream entrada;
+    ObjectOutputStream salida;
     String nombreCliente;
 
     public HiloCliente2(Socket clienteConectado) {
         nombreCliente = "";
         this.clienteConectado = clienteConectado;
         try {
-            entrada = new BufferedReader(new InputStreamReader(clienteConectado.getInputStream()));
-            salida = new PrintWriter(new OutputStreamWriter(clienteConectado.getOutputStream()), true);
+            salida = new ObjectOutputStream(clienteConectado.getOutputStream());
+            entrada = new ObjectInputStream(clienteConectado.getInputStream());
         } catch (IOException e) {
-            System.out.println("ERROR I/O");
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void run() {
+
         try {
-            salida.println("Bienvenido: indica tu nombre, por favor: ");
-            String nombre = entrada.readLine();
+            salida.writeUTF("Indica tu nombre por favor: ");
+            salida.flush();
+            String nombre = entrada.readUTF();
             nombreCliente = nombre;
             String mensaje = "";
+            do{
 
-            do {
-                mensaje = entrada.readLine();
+                mensaje = entrada.readUTF();
                 System.out.println(nombreCliente + " dice " + mensaje);
-                salida.println(mensaje);
-            } while (!mensaje.equals("fin"));
+                salida.writeUTF(mensaje);
+                salida.flush();
+            }while (!mensaje.equals("fin"));
 
-            System.out.println("Cliente finalizado = " + nombreCliente);
+
             salida.close();
             entrada.close();
             clienteConectado.close();
         } catch (IOException e) {
-            System.out.println("ERROR");
-        }
+            throw new RuntimeException(e);
 
+        }
     }
 }
